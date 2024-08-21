@@ -66,3 +66,28 @@ main {
 h2, h3 {
     margin: 0px;
 }
+.content h1 {
+    color: rgb(138, 90, 90);
+}
+
+#portfolio {
+    list-style-type: none;
+    padding-left: 0;
+    background-image: URL(images/purple.jpeg);
+}
+
+#portfolio li {
+    background: #419733;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+#portfolio li:hover {
+    background: #c06fcb;
+}
+
+#portfolio a {
+    text-decoration: none;
+    color: #3379b6;
+}
