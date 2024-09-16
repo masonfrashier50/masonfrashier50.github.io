@@ -4,9 +4,14 @@ body {
 
 canvas {
   background-color: lightblue;
+  background-image: url(images/space.jpg);
+  background-size: 100%;
+  background-repeat: no-repeat; 
   margin: 20px;
+  
 }
 
 img {
   display: none;
 }
+

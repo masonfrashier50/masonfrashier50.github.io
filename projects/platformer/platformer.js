@@ -28,7 +28,7 @@ $(function () {
      * Comment the function call out to remove the grid
      */
 
-    // drawGrid();
+    //drawGrid();
 
     /////////////////////////////////////////////////
     //////////ONLY CHANGE BELOW THIS POINT///////////
@@ -57,7 +57,38 @@ $(function () {
     // Your wall choices are: 'top' 'left' 'right' and 'bottom'
     // example usage: createCannon(side, position, delay, width, height)
 
+    createPlatform(0, 250, 200, 2000);
+    createPlatform(394, 575, 206, 20);
+    createPlatform(400, 721, 400, 0);
+    createPlatform(200, 650, 20, 0)
+    createPlatform(400, 0, 200, 465);
+    createPlatform(600, 575, 200, 20);
+    createPlatform(800, 100, 20, 800);
+    createPlatform(600, 445, 50, 20);
+    createPlatform(750, 350, 50, 20);
+    createPlatform(600, 250, 50, 20);
+    createPlatform(750, 150, 50, 20);
 
+    createPlatform(800, 100, 500, 0);
+    createPlatform(900, 300, 500, 0);
+    createPlatform(900, 250, 0, 50);
+    createPlatform(900, 100, 0, 60);
+    createPlatform(1000, 210, 0, 90);
+    createPlatform(1100, 100, 0, 115);
+    createPlatform(1000, 721, 400, 0);
+    
+  
+
+     
+    createCollectable("astro", 480, 500);
+    createCollectable("alien", 725, 600);
+    createCollectable("ship", 1302, 600);
+
+    createCannon("left", 675, 0, 100);
+   createCannon("bottom", 640, 750);
+   
+   
+    
 
     
     /////////////////////////////////////////////////
