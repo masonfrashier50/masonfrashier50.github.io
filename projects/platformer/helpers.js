@@ -358,7 +358,7 @@ function projectileCollision() {
 }
 
 function deathOfPlayer() {
-  ctx.fillStyle = "grey";
+  ctx.fillStyle = "black";
   ctx
   ctx.fillRect(
     canvas.width / 4,
@@ -367,7 +367,7 @@ function deathOfPlayer() {
     canvas.height / 2,
   );
 
-  ctx.fillStyle = "green";
+  ctx.fillStyle = "white";
   ctx.font = "800% serif";
   ctx.fillText(
     "You are dead",
@@ -413,7 +413,7 @@ function playerFrictionAndGravity() {
 
 function drawPlatforms() {
   for (var i = 0; i < platforms.length; i++) {
-    ctx.fillStyle = "grey";
+    ctx.fillStyle = "white";
     ctx.fillRect(
       platforms[i].x,
       platforms[i].y,
