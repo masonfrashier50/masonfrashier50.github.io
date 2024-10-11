@@ -366,7 +366,7 @@ function deathOfPlayer() {
     canvas.width / 2,
     canvas.height / 2,
   );
-
+ 
   ctx.fillStyle = "white";
   ctx.font = "800% serif";
   ctx.fillText(
@@ -414,6 +414,7 @@ function playerFrictionAndGravity() {
 function drawPlatforms() {
   for (var i = 0; i < platforms.length; i++) {
     ctx.fillStyle = "white";
+
     ctx.fillRect(
       platforms[i].x,
       platforms[i].y,
