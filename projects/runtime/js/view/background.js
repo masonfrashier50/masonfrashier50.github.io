@@ -69,12 +69,12 @@ var background = function (window) {
             // TODO 4: Part 1 - Add buildings!     Q: This is before TODO 4 for a reason! Why?
             
 
-            for (var i = 0; i < 6; ++i) {
+            for (var i = 0; i < 8; ++i) {
                 var eachBuilding = buildings[i];
                 var buildingHeight = 300 * 1.7;
-                eachBuilding = draw.bitmap('img/building 1.png');
+                eachBuilding = draw.bitmap('img/builds.png');
                 eachBuilding.x = 200 * i;
-                eachBuilding.y = groundY - buildingHeight;
+                eachBuilding.y = groundY- 325;
                 background.addChild(eachBuilding);
                 buildings.push(eachBuilding);
               }

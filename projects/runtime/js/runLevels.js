@@ -31,9 +31,9 @@ var runLevels = function (window) {
     obstacleImage.y = -25;
 sawBladeHitZone.addChild(obstacleImage);
     }
-createSawBlade(500, 400);
-createSawBlade(400, 300);
-createSawBlade(700, 300);
+createSawBlade(500, 550);
+createSawBlade(400, 450);
+createSawBlade(700, 450);
 
 
 
@@ -42,11 +42,11 @@ function createEnemy(x, y) {
   var enemy = game.createGameItem("enemy", 25);
   enemy.x = x;
 enemy.y = y;
-var redSquare = draw.rect(50, 50, "red");
+var redSquare = draw.bitmap('img/enemy.png');
 enemy.velocityX = -2;
 enemy.rotationalVelocity = 0;
-redSquare.x = -25;
-redSquare.y = -25;
+redSquare.x = -40;
+redSquare.y = -60;
 enemy.addChild(redSquare);
 game.addGameItem(enemy);
 
@@ -59,8 +59,8 @@ enemy.onProjectileCollision = function () {
 };
 
 }
-createEnemy(400, groundY - 10);
-createEnemy(800, groundY - 100);
+createEnemy(400, groundY - 20);
+createEnemy(800, groundY - 70);
 createEnemy(1200, groundY - 50);
 
 function createReward(x, y) {
@@ -82,6 +82,30 @@ reward.onPlayerCollision = function () {
 };
 createReward(1000, groundY - 50);
 
+function createMarker(x, y){
+  var square = game.createGameItem("square", 25);
+  square.x = x;
+square.y = y;
+  var greenSquare = draw.rect(50, 50, "green");
+  square.velocityX = -2;
+square.rotationalVelocity = 0;
+greenSquare.x = -25;
+greenSquare.y = -25;
+square.addChild(greenSquare);
+game.addGameItem(square);
+
+  square.onProjectileCollision = function () {
+    location.reload()
+startLevel();
+  };
+  square.onPlayerCollision = function () {
+    location.reload()
+startLevel();
+  };
+}
+createMarker(1500, groundY - 50);
+
+
 
     function startLevel() {
       // TODO 13 goes below here
@@ -100,6 +124,7 @@ createReward(1000, groundY - 50);
     startLevel();
   };
 };
+
 
 // DON'T REMOVE THIS CODE //////////////////////////////////////////////////////
 if (
