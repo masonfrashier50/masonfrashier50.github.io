@@ -3,7 +3,6 @@ $(document).ready(function () {
     var streak = 0;
     var isRolling = false;
 
-    // Mapping dot positions by percentage [top, left]
     const dotMap = {
         1: [[50, 50]],
         2: [[25, 25], [75, 75]],
@@ -13,23 +12,17 @@ $(document).ready(function () {
         6: [[25, 25], [75, 75], [25, 75], [75, 25], [50, 25], [50, 75]]
     };
 
-    // Initialize the die with a '1'
-    drawFace(1, "#die");
+    // Initialize both dice
+    drawFace(1, "#die1");
+    drawFace(6, "#die2");
 
     function makeDot(top, left, elementID) {
-        $("<div>")
-            .css({
-                "height": "15%",
-                "width": "15%",
-                "background-color": "white",
-                "border-radius": "50%",
-                "position": "absolute",
-                "top": top + "%",
-                "left": left + "%",
-                "transform": "translate(-50%, -50%)",
-                "box-shadow": "inset -2px -2px 2px rgba(0,0,0,0.3)"
-            })
-            .appendTo(elementID);
+        $("<div>").css({
+            "height": "15%", "width": "15%", "background-color": "white",
+            "border-radius": "50%", "position": "absolute", "top": top + "%",
+            "left": left + "%", "transform": "translate(-50%, -50%)",
+            "box-shadow": "inset -2px -2px 2px rgba(0,0,0,0.3)"
+        }).appendTo(elementID);
     }
 
     function drawFace(num, dieID) {
@@ -37,69 +30,42 @@ $(document).ready(function () {
         dotMap[num].forEach(pos => makeDot(pos[0], pos[1], dieID));
     }
 
-    function rollDie(dieID, callback) {
+    function rollDice(callback) {
         isRolling = true;
-        $(dieID).addClass("shake");
+        $(".die").addClass("shake");
         
         let rolls = 0;
         let interval = setInterval(() => {
-            let tempNum = Math.ceil(Math.random() * 6);
-            drawFace(tempNum, dieID);
+            drawFace(Math.ceil(Math.random() * 6), "#die1");
+            drawFace(Math.ceil(Math.random() * 6), "#die2");
             rolls++;
             
-            if (rolls > 12) {
+            if (rolls > 15) {
                 clearInterval(interval);
-                $(dieID).removeClass("shake");
-                let finalNum = Math.ceil(Math.random() * 6);
-                drawFace(finalNum, dieID);
+                $(".die").removeClass("shake");
+                let res1 = Math.ceil(Math.random() * 6);
+                let res2 = Math.ceil(Math.random() * 6);
+                drawFace(res1, "#die1");
+                drawFace(res2, "#die2");
                 isRolling = false;
-                callback(finalNum);
+                callback(res1 + res2);
             }
-        }, 60);
-    }
-   // Universal Chip Logic (Handles both Add and Subtract)
-$(".chip.add, .chip.sub").on("click", function() {
-    let $input = $("#riskInput");
-    let current = parseInt($input.val()) || 100; // Fallback to 100 if empty
-    let amount = parseInt($(this).data("amount"));
-    let isAddition = $(this).hasClass("add");
-    
-    let newVal;
-    if (isAddition) {
-        newVal = current + amount;
-    } else {
-        newVal = current - amount;
+        }, 50);
     }
 
-    // Constraints: 
-    // 1. Don't go below $100
-    // 2. Don't go above current balance
-    if (newVal < 100) newVal = 100;
-    if (newVal > balance) newVal = balance;
+    // Betting Controls (Add/Sub/Math)
+    $(".chip.add, .chip.sub").on("click", function() {
+        let $input = $("#riskInput");
+        let current = parseInt($input.val()) || 0;
+        let amount = parseInt($(this).data("amount"));
+        let newVal = $(this).hasClass("add") ? current + amount : current - amount;
+        $input.val(Math.min(Math.max(newVal, 100), balance));
+    });
 
-    $input.val(newVal);
-});
-
-// Clear Bet Logic
-$("#clearBet").on("click", function() {
-    $("#riskInput").val(0);
-});
-// Double Bet
-$("#doubleBet").on("click", function() {
-    let current = parseInt($("#riskInput").val()) || 0;
-    $("#riskInput").val(Math.min(current * 2, balance));
-});
-
-// Half Bet
-$("#halfBet").on("click", function() {
-    let current = parseInt($("#riskInput").val()) || 0;
-    $("#riskInput").val(Math.max(Math.floor(current / 2), 100));
-});
-
-// Max Bet
-$("#maxBet").on("click", function() {
-    $("#riskInput").val(balance);
-});
+    $("#clearBet").on("click", () => $("#riskInput").val(0));
+    $("#maxBet").on("click", () => $("#riskInput").val(balance));
+    $("#doubleBet").on("click", () => $("#riskInput").val(Math.min(parseInt($("#riskInput").val()) * 2 || 200, balance)));
+    $("#halfBet").on("click", () => $("#riskInput").val(Math.max(Math.floor(parseInt($("#riskInput").val()) / 2), 100)));
 
     $("#rollBtn").on("click", function () {
         if (isRolling) return;
@@ -107,10 +73,9 @@ $("#maxBet").on("click", function() {
         var userGuess = $("#guessInput").val(); 
         var riskAmount = parseInt($("#riskInput").val());
         var message = $("#message");
-        var minBet = 100;
 
-        if (!userGuess || isNaN(riskAmount) || riskAmount < minBet) {
-            message.text("⚠️ Select a guess and bet at least $" + minBet).css("color", "orange");
+        if (!userGuess || isNaN(riskAmount) || riskAmount < 100) {
+            message.text("⚠️ Select a bet (Min $100)").css("color", "orange");
             return;
         }
         if (riskAmount > balance) {
@@ -122,28 +87,26 @@ $("#maxBet").on("click", function() {
         $("#balance-display").text("$" + balance);
         message.text("Rolling...").css("color", "white");
 
-        rollDie("#die", function (result) {
+        rollDice(function (total) {
             let won = false;
-            let multiplier = 2; // Default for High/Low
+            let multiplier = 0;
 
-            if (userGuess === "high" && result >= 4) won = true;
-            else if (userGuess === "low" && result <= 3) won = true;
-            else if (parseInt(userGuess) === result) {
-                won = true;
-                multiplier = 5; // Higher payout for specific numbers
-            }
+            // Updated Betting Logic for 2 Dice
+            if (userGuess === "low" && total <= 6) { won = true; multiplier = 2; }
+            else if (userGuess === "high" && total >= 8) { won = true; multiplier = 2; }
+            else if (userGuess === "seven" && total === 7) { won = true; multiplier = 5; }
+            else if (userGuess === "snake" && total === 2) { won = true; multiplier = 12; }
+            else if (userGuess === "boxcars" && total === 12) { won = true; multiplier = 12; }
 
             if (won) {
                 streak++;
-                if (streak >= 3) multiplier += 1; // Streak bonus
+                if (streak >= 3) multiplier += 1; 
                 let winnings = riskAmount * multiplier;
                 balance += winnings;
-                
-                let winText = (streak >= 3) ? `🔥 STREAK x${streak}! ` : "🎉 WINNER! ";
-                message.text(winText + "You won $" + winnings).css("color", "#4CAF50");
+                message.text((streak >= 3 ? "🔥 STREAK! " : "🎉 ") + "Total: " + total + ". Won $" + winnings).css("color", "#4CAF50");
             } else {
                 streak = 0;
-                message.text("💀 Result: " + result + ". You lost $" + riskAmount).css("color", "#ff4d4d");
+                message.text("💀 Total: " + total + ". You lost $" + riskAmount).css("color", "#ff4d4d");
             }
 
             $("#balance-display").text("$" + balance);
@@ -153,9 +116,7 @@ $("#maxBet").on("click", function() {
 
     $("#game-over-overlay").on("click", function() {
         balance = 1000;
-        streak = 0;
         $("#balance-display").text("$" + balance);
         $(this).fadeOut(300);
-        $("#message").text("New game started!").css("color", "white");
     });
 });

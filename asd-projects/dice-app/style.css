@@ -2,7 +2,7 @@ body {
     /* Deep emerald gradient to mimic high-end gaming felt */
     background: radial-gradient(circle, #0a2e1f 0%, #05140d 100%);
     color: white;
-    font-family: 'Garamond', 'Georgia', serif; /* More classic, elegant font */
+    font-family: 'Garamond', 'Georgia', serif;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -19,7 +19,8 @@ body {
     border: 8px double #d4af37; 
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), inset 0 0 20px rgba(0,0,0,0.5);
     text-align: center;
-    width: 400px;
+    width: 420px;
+    position: relative;
 }
 
 h1 {
@@ -28,12 +29,10 @@ h1 {
     text-transform: uppercase;
     letter-spacing: 5px;
     margin-top: 0;
-    /* Neon gold glow */
     text-shadow: 0 0 10px rgba(212, 175, 55, 0.8), 2px 2px 2px #000;
 }
 
 .stats-bar {
-    /* Classic green felt bar */
     background: #073b24;
     padding: 15px;
     border-radius: 5px;
@@ -44,68 +43,32 @@ h1 {
 
 #balance-display { 
     color: #ffd700; 
-    font-family: 'Courier New', Courier, monospace; /* Digital display look */
+    font-family: 'Courier New', Courier, monospace;
     font-size: 1.6rem;
     font-weight: bold;
 }
 
-#die {
-    height: 110px;
-    width: 110px;
-    background-color: #900; /* Deep red */
+/* Updated Die Area for Two Dice */
+#die-area {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    margin-bottom: 30px;
+    perspective: 1000px;
+}
+
+.die {
+    height: 90px;
+    width: 90px;
+    background-color: #900;
     border-radius: 12px;
     position: relative;
-    margin: 0 auto 30px;
     /* Extra gloss to the die */
     background: radial-gradient(circle at 30% 30%, #ff1a1a, #800000);
     box-shadow: 0 10px 20px rgba(0,0,0,0.8);
 }
 
-/* Control Labels */
-label {
-    color: #d4af37;
-    font-weight: bold;
-    text-transform: uppercase;
-    font-size: 0.8rem;
-}
-
-input {
-    width: 100px;
-    padding: 12px;
-    border-radius: 4px;
-    border: 1px solid #d4af37;
-    background: #000;
-    color: #ffd700;
-    font-size: 1.1rem;
-    text-align: center;
-}
-
-button {
-    margin-top: 15px;
-    padding: 18px;
-    border-radius: 4px;
-    border: 1px solid #000;
-    /* Gold leaf gradient */
-    background: linear-gradient(to bottom, #f1d592 0%, #d4af37 50%, #a38526 100%);
-    color: #1a0f0a;
-    font-weight: 900;
-    font-size: 1.2rem;
-    text-transform: uppercase;
-    cursor: pointer;
-    box-shadow: 0 6px 0 #5e4d17;
-    transition: all 0.1s;
-}
-
-button:hover {
-    filter: brightness(1.1);
-}
-
-button:active {
-    transform: translateY(4px);
-    box-shadow: 0 2px 0 #5e4d17;
-}
-/* ... Keep all your existing CSS and add this at the bottom ... */
-
+/* Animations */
 .shake {
     animation: shake 0.1s infinite;
 }
@@ -119,32 +82,67 @@ button:active {
     100% { transform: translate(1px, -2px) rotate(-1deg); }
 }
 
-#guessInput {
-    width: 130px;
+/* Controls & Inputs */
+.controls {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+label {
+    color: #d4af37;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+}
+
+#guessInput, #riskInput {
+    width: 200px;
     padding: 12px;
     border-radius: 4px;
     border: 1px solid #d4af37;
     background: #000;
     color: #ffd700;
     font-size: 1rem;
+    text-align: center;
 }
 
-#game-over-overlay {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.9);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10;
+/* Roll Button */
+#rollBtn {
+    margin-top: 15px;
+    padding: 18px;
+    border-radius: 4px;
+    border: 1px solid #000;
+    background: linear-gradient(to bottom, #f1d592 0%, #d4af37 50%, #a38526 100%);
+    color: #1a0f0a;
+    font-weight: 900;
+    font-size: 1.2rem;
+    text-transform: uppercase;
     cursor: pointer;
-    border-radius: 15px;
+    box-shadow: 0 6px 0 #5e4d17;
+    transition: all 0.1s;
 }
+
+#rollBtn:hover { filter: brightness(1.1); }
+#rollBtn:active {
+    transform: translateY(4px);
+    box-shadow: 0 2px 0 #5e4d17;
+}
+
+/* Bet Utility Controls */
 .bet-controls {
     margin-top: 10px;
     display: flex;
     flex-direction: column;
     gap: 8px;
+    width: 100%;
 }
 
 .chip-container, .multiplier-container {
@@ -169,28 +167,26 @@ button:active {
     background: #d4af37;
     color: #000;
 }
-.chip.add {
-    border-color: #4CAF50; /* Green for add */
-    color: #4CAF50;
+
+.chip.add { border-color: #4CAF50; color: #4CAF50; }
+.chip.sub { border-color: #ff4d4d; color: #ff4d4d; }
+.chip.reset { border-color: #aaa; color: #aaa; }
+
+/* Overlay & Feedback */
+#game-over-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    cursor: pointer;
+    border-radius: 15px;
 }
 
-.chip.sub {
-    border-color: #ff4d4d; /* Red for subtract */
-    color: #ff4d4d;
-}
-
-.chip.sub:hover {
-    background: #ff4d4d;
-    color: #000;
-} 
-.chip.reset {
-    border-color: #aaa;
-    color: #aaa;
-    font-weight: normal;
-}
-
-.chip.reset:hover {
-    background: #666;
-    color: #fff;
-    border-color: #fff;
+#message {
+    margin-top: 20px;
+    font-weight: bold;
+    min-height: 1.2em;
 }
