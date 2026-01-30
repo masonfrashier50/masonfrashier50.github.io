@@ -1,8 +1,8 @@
 body {
-    /* Deep emerald gradient to mimic high-end gaming felt */
+    /* Sets a deep emerald green background with a radial gradient to mimic a spotlight on a felt table */
     background: radial-gradient(circle, #0a2e1f 0%, #05140d 100%);
     color: white;
-    font-family: 'Garamond', 'Georgia', serif;
+    font-family: 'Garamond', 'Georgia', serif; /* Uses elegant serif fonts for a classic look */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -11,12 +11,13 @@ body {
 }
 
 #game-container {
-    /* Mahogany wood texture feel */
+    /* Creates a dark wood-like finish using a diagonal linear gradient */
     background: linear-gradient(145deg, #2d1a12, #1a0f0a);
     padding: 40px;
     border-radius: 15px;
-    /* Thick gold frame */
+    /* Uses a double border style to create a classic "picture frame" gold trim */
     border: 8px double #d4af37; 
+    /* Heavy shadows make the container look "3D" and lifted off the table */
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), inset 0 0 20px rgba(0,0,0,0.5);
     text-align: center;
     width: 420px;
@@ -25,36 +26,38 @@ body {
 
 h1 {
     font-size: 2.5rem;
-    color: #f1d592;
+    color: #f1d592; /* Champagne gold color */
     text-transform: uppercase;
-    letter-spacing: 5px;
+    letter-spacing: 5px; /* Spaced out letters for a sophisticated brand feel */
     margin-top: 0;
+    /* Glow effect (text-shadow) makes the title look like a lit neon sign or polished gold */
     text-shadow: 0 0 10px rgba(212, 175, 55, 0.8), 2px 2px 2px #000;
 }
 
 .stats-bar {
+    /* A darker green panel to hold the user's score/balance separately */
     background: #073b24;
     padding: 15px;
     border-radius: 5px;
     margin-bottom: 25px;
     border: 2px solid #d4af37;
-    box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.5); /* Inner shadow for a "sunken" look */
 }
 
 #balance-display { 
-    color: #ffd700; 
-    font-family: 'Courier New', Courier, monospace;
+    color: #ffd700; /* Pure gold color for the money display */
+    font-family: 'Courier New', Courier, monospace; /* Monospaced font makes numbers look like a digital ledger */
     font-size: 1.6rem;
     font-weight: bold;
 }
 
-/* Updated Die Area for Two Dice */
+/* Container for the two dice */
 #die-area {
     display: flex;
     justify-content: center;
-    gap: 25px;
+    gap: 25px; /* Space between the dice */
     margin-bottom: 30px;
-    perspective: 1000px;
+    perspective: 1000px; /* Prepares the area for 3D animations/transforms */
 }
 
 .die {
@@ -63,16 +66,17 @@ h1 {
     background-color: #900;
     border-radius: 12px;
     position: relative;
-    /* Extra gloss to the die */
+    /* A circular gradient on the die itself to create a "shiny" plastic reflection */
     background: radial-gradient(circle at 30% 30%, #ff1a1a, #800000);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.8);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.8); /* Shadow below the die so it looks like it's hovering */
 }
 
-/* Animations */
+/* A fast, jittery animation class to be applied when the dice are "rolling" */
 .shake {
     animation: shake 0.1s infinite;
 }
 
+/* Moves the dice slightly in random directions very quickly */
 @keyframes shake {
     0% { transform: translate(2px, 1px) rotate(0deg); }
     20% { transform: translate(-1px, -2px) rotate(-1deg); }
@@ -82,7 +86,6 @@ h1 {
     100% { transform: translate(1px, -2px) rotate(-1deg); }
 }
 
-/* Controls & Inputs */
 .controls {
     display: flex;
     flex-direction: column;
@@ -103,40 +106,45 @@ label {
     font-size: 0.8rem;
 }
 
+/* Custom styling for text inputs to keep them consistent with the dark/gold theme */
 #guessInput, #riskInput {
     width: 200px;
     padding: 12px;
     border-radius: 4px;
     border: 1px solid #d4af37;
-    background: #000;
+    background: #000; /* Black background for high contrast with gold text */
     color: #ffd700;
     font-size: 1rem;
     text-align: center;
 }
 
-/* Roll Button */
+/* The main action button */
 #rollBtn {
     margin-top: 15px;
     padding: 18px;
     border-radius: 4px;
     border: 1px solid #000;
+    /* A metallic gold gradient */
     background: linear-gradient(to bottom, #f1d592 0%, #d4af37 50%, #a38526 100%);
     color: #1a0f0a;
     font-weight: 900;
     font-size: 1.2rem;
     text-transform: uppercase;
     cursor: pointer;
+    /* Creates a "3D button" side effect; looks like a physical button you can press */
     box-shadow: 0 6px 0 #5e4d17;
     transition: all 0.1s;
 }
 
-#rollBtn:hover { filter: brightness(1.1); }
+#rollBtn:hover { filter: brightness(1.1); } /* Makes the button glow slightly on hover */
+
 #rollBtn:active {
+    /* Shifts the button down and shrinks the shadow when clicked to mimic a physical press */
     transform: translateY(4px);
     box-shadow: 0 2px 0 #5e4d17;
 }
 
-/* Bet Utility Controls */
+/* Layout for betting chips and math modifiers */
 .bet-controls {
     margin-top: 10px;
     display: flex;
@@ -151,6 +159,7 @@ label {
     gap: 5px;
 }
 
+/* Base style for small utility buttons (Add, Sub, Max, etc.) */
 .chip, .math-btn {
     flex: 1;
     padding: 8px 0;
@@ -168,15 +177,16 @@ label {
     color: #000;
 }
 
+/* Specific colors for betting actions (Green for adding, Red for subtracting) */
 .chip.add { border-color: #4CAF50; color: #4CAF50; }
 .chip.sub { border-color: #ff4d4d; color: #ff4d4d; }
 .chip.reset { border-color: #aaa; color: #aaa; }
 
-/* Overlay & Feedback */
+/* A full-screen dark screen that appears when the game ends */
 #game-over-overlay {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.9);
+    background: rgba(0,0,0,0.9); /* High opacity black to hide the game */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -185,8 +195,9 @@ label {
     border-radius: 15px;
 }
 
+/* Area for win/loss text notifications */
 #message {
     margin-top: 20px;
     font-weight: bold;
-    min-height: 1.2em;
+    min-height: 1.2em; /* Keeps the layout stable even when there is no text */
 }
