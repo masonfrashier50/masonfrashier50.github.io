@@ -55,7 +55,7 @@ h1 {
 #die-area {
     display: flex;
     justify-content: center;
-    gap: 25px; /* Space between the dice */
+    gap: 25 px; /* Space between the dice */
     margin-bottom: 30px;
     perspective: 1000px; /* Prepares the area for 3D animations/transforms */
 }
