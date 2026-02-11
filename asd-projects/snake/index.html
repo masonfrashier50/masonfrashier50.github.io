@@ -1,27 +1,36 @@
 <!DOCTYPE html>
 <html>
-
   <head>
     <title>Snake</title>
-    <!--Link jQuery and CSS here-->
     <link rel="stylesheet" type="text/css" href="index.css" />
-    <script src="jquery.min.js"></script>
-
-   
-    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   </head>
   <body>
-    <div id = "board">
-      <h1 id = "score"> Score: 0</h1>
-      <h1 id = "high score">High Score: 0</h1>
+    <button id="settings-toggle">Settings</button>
+
+    <div id="settings-menu" style="display: none;">
+      <h3>Settings</h3>
+      
+      <label>Game Speed: <span id="speed-label">Slow</span></label>
+      <input type="range" id="speed-slider" min=1 max=3 step=1 value=1>
+      
+      <br><br>
+
+      <label>Snake Theme</label>
+      <select id="theme-select">
+        <option value="slate">Classic Slate</option>
+        <option value="neon">Neon Pulse</option>
+        <option value="monochrome">Ghost White</option>
+      </select>
     </div>
-    <div id="game-over" style="display: none;">
-  <h2>GAME OVER</h2>
-  <p>Press any key to restart</p>
-</div>
+
+    <div id="board"></div>
     
+    <div>
+      <h1 id="score">Score: 0</h1>
+      <h1 id="highScore">High Score: 0</h1>
+    </div>
+
+    <script src="index.js"></script>
   </body>
-  
-  <!-- Link index.js here -->
-   <script src="index.js"></script>
 </html>
