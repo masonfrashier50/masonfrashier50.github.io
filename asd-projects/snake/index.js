@@ -23,8 +23,20 @@ var KEY = {
   DOWN: 40,
 };
 
+// Rainbow Theme Variables
+const RAINBOW_COLORS = [
+  '#FF0000', // Red
+  '#FF7F00', // Orange
+  '#FFFF00', // Yellow
+  '#00FF00', // Green
+  '#0000FF', // Blue
+  '#4B0082', // Indigo
+  '#9400D3'  // Violet
+];
+var colorIndex = 0;
+
 var updateInterval;
-var activeKey;
+var nextDirection = 'right'; // Buffer for the next move
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////// GAME SETUP //////////////////////////////////////
@@ -39,6 +51,8 @@ function init() {
   snake.body = []; 
   makeSnakeSquare(10, 10); 
   snake.head = snake.body[0]; 
+  snake.head.direction = 'right';
+  nextDirection = 'right';
 
   makeApple();
 
@@ -65,19 +79,11 @@ function update() {
   }
 }
 
-function checkForNewDirection() {
-  if (activeKey === KEY.LEFT && snake.head.direction !== 'right') {
-    snake.head.direction = 'left';
-  } else if (activeKey === KEY.RIGHT && snake.head.direction !== 'left') {
-    snake.head.direction = 'right';
-  } else if (activeKey === KEY.UP && snake.head.direction !== 'down') {
-    snake.head.direction = 'up';
-  } else if (activeKey === KEY.DOWN && snake.head.direction !== 'up') {
-    snake.head.direction = 'down';
-  }
-}
-
 function moveSnake() {
+  // Update the head's direction from the buffered input
+  snake.head.direction = nextDirection;
+
+  // Move body segments from back to front
   for (var i = snake.body.length - 1; i > 0; i--) {
     var currentSnakeSquare = snake.body[i];
     var snakeSquareInFront = snake.body[i - 1];
@@ -85,8 +91,7 @@ function moveSnake() {
     repositionSquare(currentSnakeSquare);
   }
 
-  checkForNewDirection();
-
+  // Move the head based on direction
   if (snake.head.direction === 'left') {
     snake.head.column -= 1;
   } else if (snake.head.direction === 'right') {
@@ -103,7 +108,6 @@ function moveSnake() {
 function moveBodyAToBodyB(bodyA, bodyB) {
   bodyA.row = bodyB.row;
   bodyA.column = bodyB.column;
-  bodyA.direction = bodyB.direction;
 }
 
 function hasHitWall() {
@@ -119,17 +123,22 @@ function hasCollidedWithApple() {
   return snake.head.column === apple.column && snake.head.row === apple.row;
 }
 
-// --- UPDATED: HANDLE APPLE COLLISION WITH SHAKE ---
 function handleAppleCollision() {
   score++;
   scoreElement.text('Score: ' + score);
 
-  // Trigger Screen Shake
   triggerShake();
+
+  // Rainbow logic: cycle color
+  if ($('body').hasClass('theme-rainbow')) {
+    colorIndex = (colorIndex + 1) % RAINBOW_COLORS.length;
+    applyRainbowTheme();
+  }
 
   apple.element.remove();
   makeApple();
 
+  // Grow the snake: add square at current tail position
   var row = snake.tail.row;
   var column = snake.tail.column;
   makeSnakeSquare(row, column);
@@ -146,7 +155,6 @@ function hasCollidedWithSnake() {
 }
 
 function endGame() {
-  // Harder shake on death
   triggerShake();
   
   clearInterval(updateInterval);
@@ -156,6 +164,7 @@ function endGame() {
   highScoreElement.text('High Score: ' + calculateHighScore());
   scoreElement.text('Score: 0');
   score = 0;
+  colorIndex = 0; // Reset rainbow
 
   setTimeout(init, 500);
 }
@@ -164,9 +173,19 @@ function endGame() {
 ////////////////////////// HELPER FUNCTIONS ////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+function applyRainbowTheme() {
+  if ($('body').hasClass('theme-rainbow')) {
+    var currentColor = RAINBOW_COLORS[colorIndex];
+    $('.snake').css('background-color', currentColor);
+    $('#snake-head').css('background-color', '#FFFFFF'); // Keep head distinct
+  } else {
+    // Reset inline styles for other themes
+    $('.snake').css('background-color', '');
+  }
+}
+
 function triggerShake() {
   board.addClass('shake');
-  // Remove the class after the animation finishes so it can be re-added later
   setTimeout(function() {
     board.removeClass('shake');
   }, 200);
@@ -181,10 +200,8 @@ function makeApple() {
 }
 
 function makeSnakeSquare(row, column) {
-  const snakeSquare = {};
+  const snakeSquare = { row: row, column: column };
   snakeSquare.element = $('<div>').addClass('snake').appendTo(board);
-  snakeSquare.row = row;
-  snakeSquare.column = column;
 
   if (snake.body.length === 0) {
     snakeSquare.element.attr('id', 'snake-head');
@@ -193,12 +210,28 @@ function makeSnakeSquare(row, column) {
   repositionSquare(snakeSquare);
   snake.body.push(snakeSquare);
   snake.tail = snakeSquare;
+
+  // Apply rainbow color to new segment if active
+  if ($('body').hasClass('theme-rainbow')) applyRainbowTheme();
 }
 
 function handleKeyDown(event) {
-  activeKey = event.which;
-  if (activeKey >= 37 && activeKey <= 40) {
+  var key = event.which;
+
+  // Start game on any arrow key
+  if (key >= 37 && key <= 40) {
     started = true; 
+  }
+
+  // Direction buffer: Prevent turning directly backward
+  if (key === KEY.LEFT && snake.head.direction !== 'right') {
+    nextDirection = 'left';
+  } else if (key === KEY.UP && snake.head.direction !== 'down') {
+    nextDirection = 'up';
+  } else if (key === KEY.RIGHT && snake.head.direction !== 'left') {
+    nextDirection = 'right';
+  } else if (key === KEY.DOWN && snake.head.direction !== 'up') {
+    nextDirection = 'down';
   }
 }
 
@@ -266,9 +299,12 @@ function setupSettings() {
 
   $('#theme-select').on('change', function() {
     var theme = $(this).val();
-    $('body').removeClass('theme-neon theme-monochrome');
+    $('body').removeClass('theme-neon theme-monochrome theme-rainbow');
+    
     if (theme !== 'slate') {
       $('body').addClass('theme-' + theme);
     }
+    
+    applyRainbowTheme();
   });
 }
