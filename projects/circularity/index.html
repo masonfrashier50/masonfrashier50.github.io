@@ -1,41 +1,33 @@
-<!doctype html>
-
-<html>
-    <head>
-        <meta charset="utf-8">
-
-        <title>Operation Spark || Motion Poem</title>
-        <meta name="description" content="Operation Spark Motion Poem">
-        <meta name="author" content="operationspark.org">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Mechanic Simulator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game-container">
+        <h2 id="status">Status: Car Disassembled</h2>
         
-        <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
-        <link href="css/style.css" rel="stylesheet">
-
-        <!-- all core CreateJS and 3rd party libraries are listed here: -->
-        <script src="bower_components/lodash/lodash.min.js"></script>
-        <script src="bower_components/easeljs/lib/easeljs-0.8.2.min.js"></script>
-        <script src="bower_components/opspark-draw/draw.js"></script>
-        <script src="bower_components/racket/racket.js"></script>
-
-        <!-- our app javascript code -->
-        <script src="js/opspark.js"></script>
-        <script src="js/init.js"></script>
-        
-        <style type="text/css">
-            /*override default styles here*/
-        </style>
-    </head>
-    <body>
-        <div>
-            <canvas id="canvas" width="500" height="500"></canvas>
+        <div id="garage">
+            <div id="car-chassis">
+                <div id="slot-engine" class="slot">Engine Slot</div>
+                <div id="slot-battery" class="slot">Battery Slot</div>
+            </div>
+            <div id="parts-bin">
+                <button onclick="installPart('engine')">Install Engine</button>
+                <button onclick="installPart('battery')">Install Battery</button>
+                <button onclick="stripCar()" style="background: #e74c3c;">Strip Car</button>
+            </div>
         </div>
-        <script id="motion-poem">
-            (function(){
-                init(window);
-                window.opspark.makeGame();
-            })();
-        </script>
-    </body>
 
+        <div id="track" class="hidden">
+            <div id="player-car">🚗</div>
+        </div>
+
+        <button id="mode-btn" onclick="toggleMode()">Test Drive</button>
+    </div>
+    <script src="script.js"></script>
+</body>
 </html>

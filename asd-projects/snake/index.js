@@ -295,6 +295,7 @@ function setupSettings() {
       clearInterval(updateInterval);
       updateInterval = setInterval(update, getSpeedFromSlider());
     }
+    
   });
 
   $('#theme-select').on('change', function() {
@@ -307,4 +308,5 @@ function setupSettings() {
     
     applyRainbowTheme();
   });
+
 }
