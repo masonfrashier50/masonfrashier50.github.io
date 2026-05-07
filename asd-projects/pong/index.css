@@ -1,21 +1,57 @@
-
 body {
-  background-color: darkgreen;
+  background-color: rgb(92, 46, 112);
 }
 
 #board {
-  width: 440px;
+  width: 700px;
   height: 440px;
-  border: 1px solid white;
+  border: 1px solid rgb(169, 155, 64);
   background-color: black;
   position: relative;
 }
+#leftPaddle {
+  /* appearance */
+  background-color: rgb(157, 48, 48);
+  width: 20px;
+  height: 80px;
+  border-radius: 20px;
 
-#gameItem {
-  background-color: teal;
-  width: 50px;
-  height: 50px;
+  /* positioning */
   position: absolute;
-/*   left: 100px; */  /* Uncomment if you want to set a "starting" position */
-/*   top: 100px;  */  /* Uncomment if you want to set a "starting" position */
+  top: 180px;
+  left: 670px;
+}
+#rightPaddle {
+  /* appearance */
+  background-color: rgb(19, 19, 97);
+  width: 20px;
+  height: 80px;
+  border-radius: 20px;
+
+  /* positioning */
+  position: absolute;
+  top: 180px;
+  left: 10px;
+}
+#ball {
+  /* appearance */
+  background-color: white;
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+
+  /* positioning */
+  position: absolute;
+  top: 200px;
+  left: 350px;
+}
+#P1score {
+position: absolute;
+top: 440px;
+color:  rgb(169, 155, 64);
+}
+#P2score {
+position: absolute;
+top: 460px;
+color:  rgb(169, 155, 64);
 }
