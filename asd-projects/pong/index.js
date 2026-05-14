@@ -43,7 +43,7 @@ function runProgram(){
     wallCollision(ball)
     wallCollision(leftPaddle)
     wallCollision(rightPaddle)
-    // checkScore()
+     checkScore()
   }
   
   
